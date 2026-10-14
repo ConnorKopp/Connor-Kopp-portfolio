@@ -1,11 +1,10 @@
 const projects = [
   {
     // all of these links are just placeholders, as i dont have any projects to link
-    title: "Website Recreation",
-    details:
-      "A project focused on recreating a website's design and functionality using HTML, CSS. This project demonstrates skills in responsive design, user interface development, and attention to detail in replicating the original site's features.",
+    title: "Company website",
+    details: "A django company website",
     link_text: "View Project",
-    href: "https://connorkopp.github.io/Kopp-csci181-p1/",
+    href: "https://github.com/ConnorKopp/Company-web",
   },
   {
     title: "Weather App",

@@ -1,0 +1,81 @@
+Hi Connor,
+
+Thanks for your reflection and kickoff write-ups, as well as your kind words! I did deduct a couple points for turning in the kickoff so late, though. I'm glad you enjoyed the course. It was my first time teaching it and I was building out the content while it was running, so I'm glad to hear it was well received. If you haven't filled out the end of course survey I sent out yet, I'd really appreciate; not only so I can improve the course for next year, but also because the head of the department will be reading those responses as well. 
+
+
+
+Things you did well:
+
+Proper metadata
+<main> wrapping all primary content
+<footer> as a sibling of <main>
+<h1> used in hero for your name which works as a description of a single-page portfolio
+<header> with sticky positioning, logo, and <nav aria-label="Primary navigation"> with properly structured navigation (more on the header below)
+Resume link in nav opening in a new tab with rel="noopener noreferrer"
+About section with genuine personal background
+Using the SVG icons for each technology in your skills section was a nice way to make it more engaging than a basic list
+aria-label on each project card button
+<dialog> used correctly with showModal(), close(), and tabindex="-1"
+modal.focus() called on open
+Background scroll disabled on open and restored via the close event
+Modal close button uses an icon with aria-label="Close modal" - accessible and polished
+Modal close button has hover state
+Modal link has hover state
+Footer with socials and copyright line
+box-sizing: border-box set globally with *
+scroll-behavior: smooth and scroll-margin-top on sections to account for sticky header
+Responsive breakpoint for the project grid at 768px
+
+
+
+Issues that affected your grade:
+
+Your <header> is a direct child of <main> and appears after the hero section in the HTML, which means the navigation landmark is nested inside the primary content landmark. <header> should be a sibling of <main> as a direct child of <body>. It also means a keyboard user or screen reader navigating in source order would encounter the entire hero section before ever reaching your navigation. There are two ways to fix this depending on the effect you're going for:
+If you want the header to appear after the hero as it currently does visually, move the hero content inside the <header> instead. Since <h1> is generally better suited to <main>, you could change the visible "Connor Kopp" heading to a styled <p> or <span> and add a visually hidden <h1 class='sr-only'>Connor Kopp Portfolio</h1> as the first element inside <main>. However, it's less important that the <h1> not be in the global header when there's only one page on the site. 
+If you'd prefer to keep the hero as a <section> inside <main>, move the <header> outside of <main> entirely and place it before <main> as a direct child of <body>. This is the more conventional approach and what I would do. See additional feedback for styling suggestions.
+Your site uses CSS transitions on the CTA button, nav button, project cards, and modal close button. Even though these are subtle, it is still good practice to provide a prefers-reduced-motion media query to disable these for users who experience discomfort with motion:
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+Your contact form uses <br /><br /> between form elements for spacing. Line break elements shouldn't be used for layout - spacing between form fields should be handled with CSS margins or gaps. Your form is already using flex column layout, so adding gap: 1rem to the form rule and removing the <br> tags would be much cleaner.
+Your CSS has styles for a select element but there is no <select> in your HTML. This is dead code worth removing.
+Your nav links don't have any :hover or :focus-visible styles. Your resume button in the nav does have a hover state, and your CTA button in the hero does too, but the plain text nav links have no visual feedback when hovered. The requirements ask for hover effects on nav items - even a simple color change or underline would satisfy this. 
+
+
+
+
+Additional feedback that didn't impact your grade:
+
+If you move your <header> to being a direct child of <body> and before your <main> like the issue above notes, you can use position: fixed instead of sticky to make it not reserve any space and have the hero background showing through.
+The overlay behind your hero text was a good call for ensuring the text  was readable, but I'd recommend making it cover the entire background rather than just the small area around the text for a couple reasons. First, it makes it feel more open and expansive which is what you'd want for a cool starry sky shot like this. Second, it can be used to subtly darken and tint the entire background so it's still clearly visible but not too bright for your dark mode.
+Here's an example: I'm using a dark blurple overlay for the whole hero: rgb(7 4 48 / 50%). I'm using backdrop-filter: blur(6px); and rgb(15 11 60 / 40%) on the header. And I used some filters to try to make your logo white instead of tinted blue so it looked cleaner over this, but you could update it in whatever tool you used to make that. I also increased the size of the <h1> to 4rem and the tagline to 1.5rem so they feel a little more substantial in this space. I also gave the CTA link a little more padding and font-weight: bold so it stands out more.
+
+hero-example.png
+
+If you then apply background-attachment: fixed; to your hero section with the background image, you can create a cool effect where the image stays in place while you scroll, giving it a subtle parallax feel. 
+Since you're using a full-screen image for your hero, I wouldn't recommend using a background image on the rest of your content. Stick with a nice dark gray, maybe one with a subtle hint of the blurple in it to match the look and feel of your hero image. Over-using background images has the opposite of the desired effect where it can make the site feel cheaper instead of more premium. It can also distract from your main content and make it harder to read.
+Your page title is "Personal Portfolio" which is generic and doesn't include your name. This is what appears in browser tabs and search results. Something like "Connor Kopp | Portfolio" would be more identifiable and professional.
+Remember that your contact form will not be fully-functional without backend services, server-side scripting, or paid third-party services. Simply providing your email and social media info would suffice for now. If you don't plan to set one of those up anytime soon to get the contact form fully-functional, consider moving your social icons from your footer to your contact section and hiding or deleting the contact form.
+Your social icons are currently inconsistent in style - the LinkedIn icon has a solid blue background, the GitHub icon uses a circular filled style, and the email icon is an outline. Consider replacing them with icons from a single source like HeroIcons or FontAwesome's free tier so they all share the same visual style, whether that's all outlined, all filled, or all using the same shape treatment. That consistency will make your footer feel much more polished.
+When using SVGs, you can still set their color via CSS or give the links some padding and add a subtle background color change so there's some feedback on hover.
+Your copyright info is not centered on the page like your social icons are which doesn't look intentional. Also, consider changing the <p> wrapping the copyright to a <small> to be more semantic for fine print-like information.
+It is a standard convention to wrap the site logo in a link to the home page so users can use it to return to the top of the page.
+If the giant profile icon is serving as a placeholder for an image of you, that's fine, but otherwise it can likely be safely removed. If you want to provide icons for each of your sections, you could add smaller ones just before the <h2> for each section instead.
+Right now, you're setting Georgia as the font-family for your about paragraph's text. Typically, sans-serif fonts are easier to read for larger blocks of text. The best practice for paragraph text is to use a line height that is 1.5 times the font size, but simply setting line-height: 1.5; (with no units) calculates that for you.
+You can also safely increase the size of your h2s a little (revisit the typography section of the course for more info on type scales).
+You should also consider setting a max-width on your main content and have the content inside your header use the same max-width (the background can still span the full-width).
+Right now your main content stretches to the full width of the viewport on wider screens, which can make the layout feel unanchored and creates very long line lengths in your about section. Consider adding a max-width somewhere between 900px and 1200px with margin: 0 auto and width: 100% to both your header's inner container (not there yet) and your main content sections (you can override this for your hero using its id). That way the content stays readable and well-proportioned on large monitors while still filling the screen on smaller ones. Your sticky header would still span the full width visually, you'd just constrain the inner content with a wrapper div.
+If you remove the background image from <main> and just use a dark color, you no longer need the borders and backgrounds on the skills icons. Also, a little gap between the icon and its name would help a lot.
+Here's an example of how those changes would look:
+
+about-example.png
+
+Here I just used grid-column: span 3; on the last skill to center it and removed all the grid-area rules, but you can do it either way. I just though having the columns and rows line up like this rather than use the diamond shape makes it feel more grounded.
+Overall, you did a good job on this, there's still just a little more work to do to polish it and make it look really professional before you start sending it out to prospective employers.
+
+Best,
+
+John
